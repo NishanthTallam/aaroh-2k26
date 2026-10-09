@@ -1,0 +1,1 @@
+// TODO: QR generation

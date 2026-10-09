@@ -1,26 +1,90 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  
+  --color-aaroh-red: #9E1B23;
+  --color-deep-red: #6E1018;
+  --color-festival-red: #C62828;
+  --color-gold: #D4A72C;
+  --color-bright-gold: #E5BE45;
+  --color-deep-gold: #9C7415;
+  --color-warm-white: #FFF9EF;
+  --color-festival-black: #111111;
+  --color-soft-black: #1A1512;
+  --color-muted-brown: #5C4033;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --aaroh-red: #9E1B23;
+  --deep-red: #6E1018;
+  --festival-red: #C62828;
+  --gold: #D4A72C;
+  --bright-gold: #E5BE45;
+  --deep-gold: #9C7415;
+  --warm-white: #FFF9EF;
+  --pure-white: #FFFFFF;
+  --festival-black: #111111;
+  --soft-black: #1A1512;
+  --muted-brown: #5C4033;
+  --border-gold: rgba(212, 167, 44, 0.3);
+
+  --background: #111111;
+  --foreground: #FFF9EF;
+  --card: #1A1512;
+  --card-foreground: #FFF9EF;
+  --popover: #1A1512;
+  --popover-foreground: #FFF9EF;
+  --primary: #9E1B23;
+  --primary-foreground: #FFF9EF;
+  --secondary: #1E1815;
+  --secondary-foreground: #E5BE45;
+  --muted: #1E1815;
+  --muted-foreground: #A89F91;
+  --accent: #E5BE45;
+  --accent-foreground: #111111;
+  --destructive: #C62828;
+  --border: rgba(212, 167, 44, 0.2);
+  --input: rgba(255, 249, 239, 0.15);
+  --ring: #E5BE45;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom Cultural Utility Classes */
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.bg-festival-dark {
+  background-color: #111111;
+}
+
+.bg-festival-card {
+  background-color: #1A1512;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF9EF 0%, #E5BE45 50%, #9C7415 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-subtle {
+  border-color: rgba(212, 167, 44, 0.25);
+}
+
+.pattern-dots {
+  background-image: radial-gradient(rgba(212, 167, 44, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.pattern-grid {
+  background-image: 
+    linear-gradient(rgba(212, 167, 44, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 167, 44, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
