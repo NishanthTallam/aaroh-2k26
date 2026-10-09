@@ -249,15 +249,25 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {publishedEvents.slice(0, 6).map((event) => (
-              <Link
-                key={event.id}
-                href={`/events/${event.slug}`}
-                className="group relative h-[380px] rounded border border-[#D4A72C]/20 overflow-hidden bg-[#1A1512] hover:border-[#E5BE45] hover:-translate-y-2 transition-all duration-400 flex flex-col justify-end p-8 shadow-xl"
-              >
-                {/* Banner Image or Gradient Fallback */}
-                {event.imageUrl ? (
-                  <div className="absolute inset-0">
+            {publishedEvents.length === 0 ? (
+              <div className="col-span-full py-16 px-6 text-center border border-[#D4A72C]/20 rounded bg-[#1A1512]">
+                <p className="text-[#FFF9EF]/80 font-serif text-xl mb-2">
+                  Official events line-up will be published soon!
+                </p>
+                <p className="text-xs text-[#E5BE45] tracking-widest uppercase">
+                  Stay tuned as registrations open shortly
+                </p>
+              </div>
+            ) : (
+              publishedEvents.slice(0, 6).map((event) => (
+                <Link
+                  key={event.id}
+                  href={`/events/${event.slug}`}
+                  className="group relative h-[380px] rounded border border-[#D4A72C]/20 overflow-hidden bg-[#1A1512] hover:border-[#E5BE45] hover:-translate-y-2 transition-all duration-400 flex flex-col justify-end p-8 shadow-xl"
+                >
+                  {/* Banner Image or Gradient Fallback */}
+                  {event.imageUrl ? (
+                    <div className="absolute inset-0">
                     <Image
                       src={event.imageUrl}
                       alt={event.name}
@@ -290,7 +300,7 @@ export default async function HomePage() {
                   </span>
                 </div>
               </Link>
-            ))}
+            )))}
           </div>
         </div>
       </section>
