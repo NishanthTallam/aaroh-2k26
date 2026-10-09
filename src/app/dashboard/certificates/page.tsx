@@ -4,6 +4,7 @@ import { getRegistrationsByParticipant } from "@/db/queries/registrations";
 import { getFileViewUrl } from "@/lib/storage/certificates";
 import { CertificateClaimButton } from "./certificate-claim-button";
 import Link from "next/link";
+import { Award, ScrollText, Download, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -54,8 +55,8 @@ export default async function CertificatesPage() {
       {/* Claimable section if any */}
       {claimable.length > 0 && (
         <div className="bg-[#171310] border-2 border-[#E5BE45]/40 rounded-xl p-6 space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🎖️</span>
+          <div className="flex items-center gap-3">
+            <Award className="w-6 h-6 text-[#E5BE45] shrink-0" />
             <div>
               <h3 className="font-serif text-lg font-bold text-white">
                 Certificates Ready to Claim ({claimable.length})
@@ -90,7 +91,7 @@ export default async function CertificatesPage() {
       {/* Issued Certificates List */}
       {certsWithUrls.length === 0 && claimable.length === 0 ? (
         <div className="text-center py-20 bg-[#1A1512] rounded-lg border border-white/10 p-8">
-          <div className="text-4xl mb-4">📜</div>
+          <ScrollText className="w-12 h-12 text-[#E5BE45] mx-auto mb-4" />
           <h3 className="font-serif text-2xl font-bold text-white mb-2">
             No Certificates Available Yet
           </h3>
@@ -99,9 +100,10 @@ export default async function CertificatesPage() {
           </p>
           <Link
             href="/dashboard/registrations"
-            className="inline-block px-6 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded"
           >
-            View My Registrations →
+            <span>View My Registrations</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       ) : certsWithUrls.length > 0 ? (
@@ -142,7 +144,7 @@ export default async function CertificatesPage() {
                   className="px-4 py-2 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-[#C62828] transition-all flex items-center gap-1.5"
                 >
                   <span>Download PDF</span>
-                  <span>📥</span>
+                  <Download className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>

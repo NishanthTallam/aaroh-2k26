@@ -26,8 +26,6 @@ export function Navbar({ userRole }: NavbarProps) {
     { label: "Events", href: "/events" },
     { label: "Schedule", href: "/schedule" },
     { label: "Results", href: "/results" },
-    { label: "Coordinators", href: "/#coordinates" },
-    { label: "FAQ", href: "/#faq" },
   ];
 
   return (

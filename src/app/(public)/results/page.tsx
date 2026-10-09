@@ -1,11 +1,38 @@
 import { getCompletedEventsWithResults } from "@/db/queries/events";
 import Link from "next/link";
-
+import { Trophy, Medal, Award, ArrowRight } from "lucide-react";
 
 export default async function ResultsPage() {
   const completedEvents = await getCompletedEventsWithResults();
 
-  const medals = ["🥇 1st Place", "🥈 2nd Place", "🥉 3rd Place"];
+  const getMedalBadge = (position: number) => {
+    if (position === 1) {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-amber-400 uppercase mb-2">
+          <Trophy className="w-4 h-4" /> 1st Place
+        </span>
+      );
+    }
+    if (position === 2) {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-slate-300 uppercase mb-2">
+          <Medal className="w-4 h-4" /> 2nd Place
+        </span>
+      );
+    }
+    if (position === 3) {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-amber-600 uppercase mb-2">
+          <Award className="w-4 h-4" /> 3rd Place
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-[#E5BE45] uppercase mb-2">
+        <Award className="w-4 h-4" /> Rank {position}
+      </span>
+    );
+  };
 
   return (
     <div className="pt-32 pb-24 px-6 md:px-14 max-w-5xl mx-auto">
@@ -23,7 +50,7 @@ export default async function ResultsPage() {
 
       {completedEvents.length === 0 ? (
         <div className="text-center py-20 bg-[#1A1512] rounded border border-white/10 p-8">
-          <div className="text-4xl mb-4">🏆</div>
+          <Trophy className="w-12 h-12 text-[#E5BE45] mx-auto mb-4" />
           <h3 className="font-serif text-2xl font-bold text-white mb-2">
             Competitions in Progress
           </h3>
@@ -32,9 +59,10 @@ export default async function ResultsPage() {
           </p>
           <Link
             href="/events"
-            className="inline-block px-6 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded"
           >
-            Explore Active Events →
+            <span>Explore Active Events</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       ) : (
@@ -69,9 +97,7 @@ export default async function ResultsPage() {
                       key={res.id}
                       className="p-5 bg-[#111111] rounded border border-white/5 flex flex-col justify-between"
                     >
-                      <span className="text-xs font-bold tracking-wider text-[#E5BE45] uppercase block mb-2">
-                        {medals[res.position - 1] || `Rank ${res.position}`}
-                      </span>
+                      {getMedalBadge(res.position)}
                       <strong className="text-white text-lg font-serif block mb-1">
                         {res.participantName || "Team"}
                       </strong>

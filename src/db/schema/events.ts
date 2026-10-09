@@ -29,6 +29,7 @@ export const events = pgTable("events", {
   })
     .default("DRAFT")
     .notNull(),
+  imageUrl: text("image_url"),
   eventManagerId: text("event_manager_id").references(() => profiles.id),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

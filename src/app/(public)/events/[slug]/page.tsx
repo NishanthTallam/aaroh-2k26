@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getEventBySlug } from "@/db/queries/events";
 import { getSession } from "@/lib/auth/session";
+import { ScrollText, Clock, MapPin, ArrowLeft } from "lucide-react";
 
 interface EventDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -35,11 +37,43 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         href="/events"
         className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.14em] uppercase text-[#E5BE45] hover:text-white mb-8 transition-colors"
       >
-        ← Back to all events
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>Back to all events</span>
       </Link>
 
       {/* Header */}
-      <div className="bg-[#1A1512] border border-[#D4A72C]/30 rounded p-8 md:p-12 mb-10 shadow-2xl relative overflow-hidden">
+      <div className="bg-[#1A1512] border border-[#D4A72C]/30 rounded mb-10 shadow-2xl relative overflow-hidden">
+        {/* Banner Image Showcase */}
+        {event.imageUrl && (
+          <div className="relative w-full h-[360px] sm:h-[460px] md:h-[520px] bg-[#0A0807] overflow-hidden border-b border-[#D4A72C]/20">
+            {/* Ambient blurred backdrop to fill letterbox smoothly */}
+            <div className="absolute inset-0 opacity-30 filter blur-2xl scale-110 pointer-events-none">
+              <Image
+                src={event.imageUrl}
+                alt=""
+                fill
+                unoptimized
+                sizes="100vw"
+                className="object-cover object-center"
+                aria-hidden="true"
+              />
+            </div>
+            {/* Full, clear, unclipped event image */}
+            <div className="relative w-full h-full">
+              <Image
+                src={event.imageUrl}
+                alt={event.name}
+                fill
+                unoptimized
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-contain object-center"
+                priority
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="p-8 md:p-12 relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-radial from-[#9E1B23]/30 to-transparent pointer-events-none" />
 
         <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -97,6 +131,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             </strong>
           </div>
         </div>
+        </div>
       </div>
 
       {/* Rules & Details Section */}
@@ -105,8 +140,9 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           {/* Rules */}
           {event.rules && (
             <div className="bg-[#1A1512] border border-white/10 rounded p-8">
-              <h2 className="font-serif text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="text-[#E5BE45]">📜</span> Event Rules & Guidelines
+              <h2 className="font-serif text-2xl font-bold text-white mb-4 flex items-center gap-2.5">
+                <ScrollText className="w-5 h-5 text-[#E5BE45]" />
+                <span>Event Rules & Guidelines</span>
               </h2>
               <div className="text-sm text-[#FFF9EF]/80 leading-relaxed whitespace-pre-line space-y-2">
                 {event.rules}
@@ -117,8 +153,9 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           {/* Schedule Rounds */}
           {event.schedules && event.schedules.length > 0 && (
             <div className="bg-[#1A1512] border border-white/10 rounded p-8">
-              <h2 className="font-serif text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="text-[#E5BE45]">⏱️</span> Schedule & Timeline
+              <h2 className="font-serif text-2xl font-bold text-white mb-4 flex items-center gap-2.5">
+                <Clock className="w-5 h-5 text-[#E5BE45]" />
+                <span>Schedule & Timeline</span>
               </h2>
               <div className="space-y-4">
                 {event.schedules.map((sch) => {
@@ -130,6 +167,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     hour: "2-digit",
                     minute: "2-digit",
                   });
+
                   return (
                     <div
                       key={sch.id}
@@ -139,7 +177,10 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                         <strong className="text-white text-sm block">
                           {sch.roundName || "Round"}
                         </strong>
-                        <span className="text-xs text-[#FFF9EF]/60">📍 {sch.venue}</span>
+                        <span className="text-xs text-[#FFF9EF]/60 inline-flex items-center gap-1 mt-0.5">
+                          <MapPin className="w-3 h-3 text-[#E5BE45]" />
+                          <span>{sch.venue}</span>
+                        </span>
                       </div>
                       <span className="text-xs font-semibold text-[#E5BE45]">
                         {start} - {end}

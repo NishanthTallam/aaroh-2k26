@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { uploadPaymentQrAction } from "@/actions/settings";
 import Image from "next/image";
+import { QrCode } from "lucide-react";
 
 export function PaymentQrForm({ currentQrUrl }: { currentQrUrl: string | null }) {
   const [state, formAction, isPending] = useActionState(uploadPaymentQrAction, null);
@@ -55,7 +56,7 @@ export function PaymentQrForm({ currentQrUrl }: { currentQrUrl: string | null })
             />
           ) : (
             <div className="text-center p-2 text-black">
-              <span className="text-2xl block mb-1">📱</span>
+              <QrCode className="w-8 h-8 text-black/60 mx-auto mb-1" />
               <span className="text-[10px] font-bold uppercase tracking-wider block text-black/60">
                 Default QR
               </span>

@@ -4,6 +4,7 @@ import { useState, useActionState } from "react";
 import { createRegistrationAction } from "@/actions/registrations";
 import type { Event, Profile } from "@/db/schema";
 import Image from "next/image";
+import { Camera, AlertCircle } from "lucide-react";
 
 interface RegistrationFormProps {
   event: Event;
@@ -78,8 +79,9 @@ export function RegistrationForm({
       <input type="hidden" name="registrationType" value={regType} />
 
       {state?.error && (
-        <div className="p-4 bg-red-950/70 border border-red-500/50 rounded text-sm text-red-200">
-          ⚠️ {state.error}
+        <div className="p-4 bg-red-950/70 border border-red-500/50 rounded text-sm text-red-200 flex items-center gap-2.5">
+          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+          <span>{state.error}</span>
         </div>
       )}
 
@@ -186,8 +188,9 @@ export function RegistrationForm({
 
             {/* NEW REQUIREMENT: Payment Screenshot Upload */}
             <div>
-              <label className="text-xs font-bold tracking-wider text-[#E5BE45] uppercase block mb-1.5 flex items-center gap-2">
-                <span>📸 Upload Payment Screenshot *</span>
+              <label className="text-xs font-bold tracking-wider text-[#E5BE45] uppercase block mb-1.5 flex items-center gap-1.5">
+                <Camera className="w-3.5 h-3.5" />
+                <span>Upload Payment Screenshot *</span>
               </label>
               <input
                 type="file"

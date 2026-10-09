@@ -3,6 +3,7 @@ import { getEventById } from "@/db/queries/events";
 import { getRegistrationsByEvent } from "@/db/queries/registrations";
 import { togglePublishEventAction, markEventCompletedAction } from "@/actions/events";
 import Link from "next/link";
+import { MapPin, Calendar, Trophy, ArrowLeft } from "lucide-react";
 
 interface AdminEventDetailPageProps {
   params: Promise<{ id: string }>;
@@ -31,7 +32,8 @@ export default async function AdminEventDetailPage({
         href="/admin/events"
         className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.14em] uppercase text-[#E5BE45] hover:text-white transition-colors"
       >
-        ← Back to all events
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>Back to all events</span>
       </Link>
 
       {/* Header Banner */}
@@ -58,9 +60,17 @@ export default async function AdminEventDetailPage({
             {event.name}
           </h1>
 
-          <p className="text-xs text-[#FFF9EF]/70">
-            📍 {event.venue} • 🗓️ {new Date(event.eventDate).toLocaleDateString()}
-          </p>
+          <div className="text-xs text-[#FFF9EF]/70 flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-[#E5BE45]" />
+              <span>{event.venue}</span>
+            </span>
+            <span className="text-white/30">•</span>
+            <span className="inline-flex items-center gap-1">
+              <Calendar className="w-3 h-3 text-[#E5BE45]" />
+              <span>{new Date(event.eventDate).toLocaleDateString()}</span>
+            </span>
+          </div>
         </div>
 
         {/* Action Controls */}
@@ -118,9 +128,10 @@ export default async function AdminEventDetailPage({
             >
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#9E1B23] text-white border border-[#E5BE45]/30 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#C62828] transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#9E1B23] text-white border border-[#E5BE45]/30 rounded text-xs font-bold uppercase tracking-wider hover:bg-[#C62828] transition-all"
               >
-                Mark Completed 🏆
+                <Trophy className="w-3.5 h-3.5" />
+                <span>Mark Completed</span>
               </button>
             </form>
           )}

@@ -87,7 +87,7 @@ export function Hero() {
       <div className="absolute bottom-6 left-0 w-full px-6 md:px-14 flex justify-between text-xs tracking-[0.25em] text-[#FFF9EF]/40 uppercase hidden sm:flex">
         <span>EST. 2026</span>
         <span>CELEBRATE • COMPETE • CREATE</span>
-        <span>HYDERABAD</span>
+        <span>PUTTPARTHI</span>
       </div>
     </section>
   );

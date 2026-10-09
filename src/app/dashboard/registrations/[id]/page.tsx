@@ -198,7 +198,7 @@ export default async function RegistrationDetailPage({
         {paymentScreenshotUrl && (
           <div className="p-8 border-t border-white/10 bg-[#111111]/60">
             <h3 className="text-xs font-bold tracking-[0.2em] text-[#E5BE45] uppercase mb-3">
-              Payment Verification Receipt (Neon Object Storage)
+              Payment Verification Receipt
             </h3>
             <div className="flex items-center gap-4">
               <a
@@ -211,7 +211,7 @@ export default async function RegistrationDetailPage({
                 <span>↗</span>
               </a>
               <span className="text-xs text-[#FFF9EF]/50">
-                Uploaded to secure S3 storage for festival audit.
+                Uploaded file is fully secured.
               </span>
             </div>
           </div>

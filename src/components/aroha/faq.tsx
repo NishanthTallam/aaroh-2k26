@@ -6,11 +6,11 @@ export function FAQ() {
   const faqs = [
     {
       q: "When is Aaroh 2K26?",
-      a: "Aaroh 2K26 is a premier three-day inter-college festival scheduled for April 15–17, 2026.",
+      a: "Aaroh 2K26 is a premier three-day Carnival Fest scheduled for October 14–16, 2026.",
     },
     {
       q: "Where will the festival take place?",
-      a: "The festival takes place across the University Campus, with major arenas including the Main Amphitheatre, Sports Complex Turf, Auditorium Hall A, and the Food Street Courtyard.",
+      a: "The festival takes place across the Sanskrithi School of Engineering Campus, with major arenas including the Beta Auditorium, Stationay Road, Anahata Hall.",
     },
     {
       q: "How can I register for events?",

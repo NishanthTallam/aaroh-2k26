@@ -18,6 +18,7 @@ export default async function HomePage() {
       sub: "DANCE • MUSIC • DRAMA",
       slug: "CULTURAL",
       bgClass: "from-[#871921] to-[#300609]",
+      image: "/images/culturals/Culturals.jpeg",
     },
     {
       number: "02",
@@ -25,6 +26,7 @@ export default async function HomePage() {
       sub: "TEAM SPIRIT • FITNESS • GLORY",
       slug: "SPORTS",
       bgClass: "from-[#1b4d3e] to-[#071f18]",
+      image: "/images/sports/Sports.jpeg",
     },
     {
       number: "03",
@@ -32,6 +34,7 @@ export default async function HomePage() {
       sub: "DESIGN • FILM • PHOTOGRAPHY",
       slug: "CREATIVE_MEDIA",
       bgClass: "from-[#6c2e74] to-[#200a24]",
+      image: "/images/creative-media/Creative-media.jpeg",
     },
     {
       number: "04",
@@ -39,6 +42,7 @@ export default async function HomePage() {
       sub: "STREET FOOD • FLAVOUR • MORE",
       slug: "FOOD_FEST",
       bgClass: "from-[#b86214] to-[#3a1b02]",
+      image: "/images/food-fest/Food-fest.jpeg",
     },
   ];
 
@@ -83,15 +87,16 @@ export default async function HomePage() {
 
             {/* Editorial Visual Card with Official Poster */}
             <div className="relative flex justify-center">
-              <div className="relative w-full max-w-md h-[520px] md:h-[580px] rounded-xl overflow-hidden shadow-2xl border-2 border-[#D4A72C]/40 group bg-[#111111]">
+              <div className="relative w-full max-w-[420px] aspect-[960/1600] rounded-xl overflow-hidden shadow-2xl border-2 border-[#D4A72C]/40 group bg-[#111111]">
                 <Image
                   src="/images/general/aaroh2k26.jpeg"
                   alt="Aaroh 2K26 Official Festival Poster - Sanskrithi Group of Institutions"
                   fill
                   priority
-                  className="object-contain sm:object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className="object-contain object-center group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 flex flex-col justify-end pointer-events-none">
                   <span className="text-[10px] font-bold tracking-[0.25em] text-[#E5BE45] uppercase">
                     AAROH 2K26 OFFICIAL POSTER
                   </span>
@@ -100,7 +105,7 @@ export default async function HomePage() {
                   </p>
                 </div>
               </div>
-              <div className="absolute -top-4 -right-4 w-full max-w-md h-[520px] md:h-[580px] border-2 border-[#D4A72C] rounded-xl -z-10 hidden sm:block" />
+              <div className="absolute -top-4 -right-4 w-full max-w-[420px] aspect-[960/1600] border-2 border-[#D4A72C] rounded-xl -z-10 hidden sm:block pointer-events-none" />
             </div>
           </div>
 
@@ -171,27 +176,51 @@ export default async function HomePage() {
               <Link
                 key={cat.number}
                 href={`/events?category=${cat.slug}`}
-                className="group relative h-[420px] rounded overflow-hidden shadow-lg hover:-translate-y-2 hover:shadow-2xl transition-all duration-400 block"
+                className="group relative h-[440px] rounded-2xl overflow-hidden shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 block border border-black/10 hover:border-[#D4A72C]/80"
               >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${cat.bgClass} group-hover:scale-105 transition-transform duration-700`}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute inset-0 p-8 flex flex-col justify-between text-[#FFF9EF] z-10">
-                  <span className="font-serif text-2xl font-bold text-[#E5BE45]">
-                    {cat.number}
-                  </span>
+                {/* Background Image with Hover Zoom */}
+                <div className="absolute inset-0 z-0 overflow-hidden bg-[#111111]">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Color Tint & Readability Gradients */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${cat.bgClass} opacity-35 mix-blend-multiply group-hover:opacity-20 transition-opacity duration-500`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/20 pointer-events-none" />
+                </div>
+
+                {/* Card Content */}
+                <div className="absolute inset-0 p-7 flex flex-col justify-between text-[#FFF9EF] z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif text-2xl font-bold text-[#E5BE45] drop-shadow">
+                      {cat.number}
+                    </span>
+                    <span className="text-[10px] font-bold tracking-[0.2em] px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[#FFF9EF]/90 uppercase">
+                      World
+                    </span>
+                  </div>
+
                   <div>
-                    <span className="text-[11px] tracking-[0.2em] text-[#FFF9EF]/70 uppercase block mb-1">
+                    <span className="text-[11px] font-bold tracking-[0.2em] text-[#E5BE45] uppercase block mb-1.5 drop-shadow">
                       {cat.sub}
                     </span>
-                    <h3 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2">
+                    <h3 className="font-serif text-2xl md:text-3xl font-bold text-white mb-4 drop-shadow-md leading-tight">
                       {cat.name}
                     </h3>
+                    <div className="flex items-center justify-between pt-3 border-t border-white/20">
+                      <span className="text-xs font-semibold tracking-wider text-[#FFF9EF]/80 group-hover:text-white transition-colors">
+                        Explore Category
+                      </span>
+                      <span className="w-8 h-8 rounded-full border border-[#E5BE45]/60 text-[#E5BE45] flex items-center justify-center text-sm group-hover:bg-[#E5BE45] group-hover:text-[#111111] group-hover:border-[#E5BE45] group-hover:translate-x-1 transition-all">
+                        →
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-xl text-[#E5BE45] self-end group-hover:translate-x-2 transition-transform">
-                    →
-                  </span>
                 </div>
               </Link>
             ))}
@@ -224,9 +253,28 @@ export default async function HomePage() {
               <Link
                 key={event.id}
                 href={`/events/${event.slug}`}
-                className="group relative h-[380px] rounded border border-white/10 overflow-hidden bg-[#1A1512] hover:border-[#E5BE45] hover:-translate-y-2 transition-all duration-400 flex flex-col justify-end p-8"
+                className="group relative h-[380px] rounded border border-[#D4A72C]/20 overflow-hidden bg-[#1A1512] hover:border-[#E5BE45] hover:-translate-y-2 transition-all duration-400 flex flex-col justify-end p-8 shadow-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/95 pointer-events-none" />
+                {/* Banner Image or Gradient Fallback */}
+                {event.imageUrl ? (
+                  <div className="absolute inset-0">
+                    <Image
+                      src={event.imageUrl}
+                      alt={event.name}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/95 via-[#111111]/55 to-black/20 pointer-events-none" />
+                  </div>
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1A1512] to-[#0d0a08]">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-radial from-[#9E1B23]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/95 pointer-events-none" />
+                  </div>
+                )}
+
                 <div className="relative z-10">
                   <span className="text-[11px] font-bold tracking-[0.2em] text-[#E5BE45] uppercase block mb-1">
                     {event.category.replace("_", " ")}

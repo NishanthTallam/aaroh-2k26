@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/auth/permissions";
 import { getPresignedDownloadUrl, BUCKETS } from "@/lib/storage/client";
 import { PaymentQrForm } from "./payment-qr-form";
+import { Calendar, MapPin } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -48,10 +49,11 @@ export default async function AdminSettingsPage() {
               Festival Name & Dates
             </span>
             <div className="text-white font-medium text-sm">
-              Aaroh 2K26 (National Inter-College Cultural & Sports Fest)
+              Aaroh 2K26
             </div>
-            <div className="text-white/60">
-              📅 March 26 – March 28, 2026 (3 Days)
+            <div className="text-white/60 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#E5BE45]" />
+              <span>OCTOBER 14 – OCTOBER 16, 2026 (3 Days)</span>
             </div>
           </div>
 
@@ -60,10 +62,11 @@ export default async function AdminSettingsPage() {
               Primary Venue
             </span>
             <div className="text-white font-medium text-sm">
-              Aroha University Main Campus
+              Sanskrithi School of Engineering
             </div>
-            <div className="text-white/60">
-              📍 Knowledge Park, Gandipet Road, Hyderabad, Telangana 500075
+            <div className="text-white/60 flex items-start gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-[#E5BE45] shrink-0 mt-0.5" />
+              <span>Knowledge Park, Near Super Speciality Hospital, Puttaparthi, Andhra Pradesh 515134</span>
             </div>
           </div>
 
@@ -72,10 +75,10 @@ export default async function AdminSettingsPage() {
               Payment UPI Information
             </span>
             <div className="text-white font-mono font-medium">
-              VPA: aroha2k26@upi
+              VPA: tallamnishnath
             </div>
             <div className="text-white/60">
-              Account Name: Aroha 2K26 Cultural Fest Committee
+              Account Name: Tallam Nishanth
             </div>
           </div>
 

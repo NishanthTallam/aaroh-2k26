@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { events, schedules } from "@/db/schema";
 import { asc, eq } from "drizzle-orm";
 import Link from "next/link";
+import { MapPin, Clock, ArrowRight } from "lucide-react";
 
 
 export default async function SchedulePage() {
@@ -71,18 +72,25 @@ export default async function SchedulePage() {
                     <h3 className="font-serif text-2xl font-bold text-white mb-1">
                       {event.name}
                     </h3>
-                    <div className="text-xs text-[#FFF9EF]/60 flex items-center gap-4">
-                      <span>📍 {schedule.venue}</span>
-                      <span>⏱️ {startTimeStr} – {endTimeStr}</span>
+                    <div className="text-xs text-[#FFF9EF]/60 flex flex-wrap items-center gap-4">
+                      <span className="inline-flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#E5BE45]" />
+                        <span>{schedule.venue}</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-[#E5BE45]" />
+                        <span>{startTimeStr} – {endTimeStr}</span>
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 <Link
                   href={`/events/${event.slug}`}
-                  className="px-5 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-[#C62828] transition-colors self-end sm:self-center"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-[#C62828] transition-colors self-end sm:self-center"
                 >
-                  View Event →
+                  <span>View Event</span>
+                  <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
             );

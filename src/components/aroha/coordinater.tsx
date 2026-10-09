@@ -1,5 +1,6 @@
 import { getFestivalCoordinators } from "@/db/queries/managers";
 import Link from "next/link";
+import { UserCheck, Calendar, Mail, Phone, ArrowRight } from "lucide-react";
 
 export async function Coordinators() {
   const staff = await getFestivalCoordinators();
@@ -21,7 +22,8 @@ export async function Coordinators() {
           href="/events"
           className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.14em] uppercase text-[#E5BE45] border-b border-[#D4A72C] pb-1 hover:text-white hover:border-white transition-all mb-4"
         >
-          View All Competitions →
+          <span>View All Competitions</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
@@ -29,7 +31,7 @@ export async function Coordinators() {
       <div className="space-y-3.5 max-h-[460px] overflow-y-auto pr-2 custom-scrollbar">
         {staff.length === 0 ? (
           <div className="p-6 bg-[#171310] border border-[#D4A72C]/30 rounded-xl text-center">
-            <span className="text-2xl block mb-2">👔</span>
+            <UserCheck className="w-8 h-8 mx-auto text-[#E5BE45] mb-2" />
             <strong className="block text-white text-sm">Festival Helpdesk</strong>
             <span className="text-xs text-white/60 block mt-1">
               helpdesk@aroha2k26.com • +91 98765 43210
@@ -67,9 +69,10 @@ export async function Coordinators() {
                   {coord.assignedEvents.map((ev) => (
                     <span
                       key={ev.id}
-                      className="text-[10px] px-2 py-0.5 rounded bg-[#111111] border border-white/10 text-white/80 font-medium"
+                      className="text-[10px] px-2 py-0.5 rounded bg-[#111111] border border-white/10 text-white/80 font-medium inline-flex items-center gap-1"
                     >
-                      🎪 {ev.name}
+                      <Calendar className="w-2.5 h-2.5 text-[#E5BE45]" />
+                      <span>{ev.name}</span>
                     </span>
                   ))}
                 </div>
@@ -81,7 +84,7 @@ export async function Coordinators() {
                   href={`mailto:${coord.email}`}
                   className="text-white/70 hover:text-[#E5BE45] transition-colors inline-flex items-center gap-1.5 text-[11px]"
                 >
-                  <span>✉</span>
+                  <Mail className="w-3.5 h-3.5 text-[#E5BE45]" />
                   <span>{coord.email}</span>
                 </a>
 
@@ -90,7 +93,7 @@ export async function Coordinators() {
                     href={`tel:${coord.phone}`}
                     className="text-[#E5BE45] hover:underline inline-flex items-center gap-1 text-[11px] font-semibold"
                   >
-                    <span>📞</span>
+                    <Phone className="w-3 h-3 text-[#E5BE45]" />
                     <span>{coord.phone}</span>
                   </a>
                 )}

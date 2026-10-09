@@ -2,6 +2,16 @@ import { requireAdmin } from "@/lib/auth/permissions";
 import { ArohaLogo } from "@/components/aroha/aroha-logo";
 import { logoutAction } from "@/actions/auth";
 import Link from "next/link";
+import {
+  LayoutDashboard,
+  Calendar,
+  ClipboardList,
+  Users,
+  UserCheck,
+  Clock,
+  Trophy,
+  Settings,
+} from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -11,14 +21,14 @@ export default async function AdminLayout({
   const user = await requireAdmin();
 
   const links = [
-    { label: "Dashboard", href: "/admin", icon: "📊" },
-    { label: "Events", href: "/admin/events", icon: "🎪" },
-    { label: "Registrations", href: "/admin/registrations", icon: "📝" },
-    { label: "Participants", href: "/admin/participants", icon: "👥" },
-    { label: "Event Managers", href: "/admin/managers", icon: "👔" },
-    { label: "Schedule", href: "/admin/schedule", icon: "🗓️" },
-    { label: "Results", href: "/admin/results", icon: "🏆" },
-    { label: "Settings", href: "/admin/settings", icon: "⚙️" },
+    { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { label: "Events", href: "/admin/events", icon: Calendar },
+    { label: "Registrations", href: "/admin/registrations", icon: ClipboardList },
+    { label: "Participants", href: "/admin/participants", icon: Users },
+    { label: "Event Managers", href: "/admin/managers", icon: UserCheck },
+    { label: "Schedule", href: "/admin/schedule", icon: Clock },
+    { label: "Results", href: "/admin/results", icon: Trophy },
+    { label: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
   return (
@@ -43,9 +53,9 @@ export default async function AdminLayout({
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider text-[#FFF9EF]/80 hover:text-[#E5BE45] hover:bg-[#111111] transition-all"
+                className="flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider text-[#FFF9EF]/80 hover:text-[#E5BE45] hover:bg-[#111111] transition-all group"
               >
-                <span>{link.icon}</span>
+                <link.icon className="w-4 h-4 text-[#E5BE45]/70 group-hover:text-[#E5BE45] transition-colors" />
                 <span>{link.label}</span>
               </Link>
             ))}

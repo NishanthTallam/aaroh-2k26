@@ -107,9 +107,9 @@ export function ResultRecordForm({
                     required
                     className="w-full bg-[#111111] border border-white/20 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D4A72C]"
                   >
-                    <option value="1">🥇 1st Place (Winner)</option>
-                    <option value="2">🥈 2nd Place (Runner-up)</option>
-                    <option value="3">🥉 3rd Place (2nd Runner-up)</option>
+                    <option value="1">1st Place (Winner)</option>
+                    <option value="2">2nd Place (Runner-up)</option>
+                    <option value="3">3rd Place (2nd Runner-up)</option>
                     <option value="4">Consolation / Special Mention</option>
                   </select>
                 </div>

@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { deleteResultAction } from "@/actions/results";
+import { Trophy, Medal, Award } from "lucide-react";
 
 type ResultItem = {
   id: string;
@@ -38,20 +39,23 @@ export function ResultList({ results }: { results: ResultItem[] }) {
   const getPositionBadge = (pos: number) => {
     if (pos === 1)
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
-          🥇 1st Place
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+          <Trophy className="w-3.5 h-3.5" />
+          <span>1st Place</span>
         </span>
       );
     if (pos === 2)
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-300/20 text-slate-200 border border-slate-400/40">
-          🥈 2nd Place
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-300/20 text-slate-200 border border-slate-400/40">
+          <Medal className="w-3.5 h-3.5" />
+          <span>2nd Place</span>
         </span>
       );
     if (pos === 3)
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-700/20 text-amber-500 border border-amber-700/40">
-          🥉 3rd Place
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-700/20 text-amber-500 border border-amber-700/40">
+          <Award className="w-3.5 h-3.5" />
+          <span>3rd Place</span>
         </span>
       );
     return (

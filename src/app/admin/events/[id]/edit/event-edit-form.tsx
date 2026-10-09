@@ -1,8 +1,95 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { updateEventAction } from "@/actions/events";
 import type { Event, Profile } from "@/db/schema";
+import Image from "next/image";
+import { ImagePlus, AlertCircle } from "lucide-react";
+
+function EventImageUpload({ currentImageUrl }: { currentImageUrl: string | null }) {
+  const [preview, setPreview] = useState<string | null>(currentImageUrl);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string>(currentImageUrl || "");
+  const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  async function handleFile(file: File) {
+    setError(null);
+    setUploading(true);
+    setPreview(URL.createObjectURL(file));
+    try {
+      const fd = new FormData();
+      fd.append("image", file);
+      const res = await fetch("/api/events/upload-image", {
+        method: "POST",
+        body: fd,
+        credentials: "same-origin",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload failed");
+      setUploadedUrl(data.url);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Upload failed");
+      setPreview(currentImageUrl);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  return (
+    <div>
+      <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
+        Event Banner Image
+      </label>
+      <input type="hidden" name="imageUrl" value={uploadedUrl} />
+      <div
+        onClick={() => inputRef.current?.click()}
+        className="relative cursor-pointer border-2 border-dashed border-[#D4A72C]/30 hover:border-[#E5BE45] rounded-xl overflow-hidden transition-all"
+        style={{ minHeight: "160px" }}
+      >
+        {preview ? (
+          <div className="relative w-full h-40">
+            <Image
+              src={preview}
+              alt="Event banner preview"
+              fill
+              sizes="100vw"
+              className="object-cover"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              <span className="text-white text-xs font-bold uppercase tracking-wider">Click to replace</span>
+            </div>
+          </div>
+        ) : (
+          <div className="h-40 flex flex-col items-center justify-center text-[#FFF9EF]/50 gap-2 p-4">
+            <ImagePlus className="w-8 h-8 text-[#E5BE45]/70 mb-1" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#FFF9EF]/70">Click to upload banner image</span>
+            <span className="text-[10px]">JPG, PNG, WEBP • Recommended 16:9</span>
+          </div>
+        )}
+        {uploading && (
+          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+            <span className="text-[#E5BE45] text-xs font-bold animate-pulse">Uploading...</span>
+          </div>
+        )}
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/jpg"
+        className="hidden"
+        onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+      />
+      {error && (
+        <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1.5">
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          <span>{error}</span>
+        </p>
+      )}
+    </div>
+  );
+}
 
 interface EventEditFormProps {
   event: Event;
@@ -21,8 +108,9 @@ export function EventEditForm({ event, managers }: EventEditFormProps) {
       <input type="hidden" name="id" value={event.id} />
 
       {state?.error && (
-        <div className="p-3 bg-red-950/70 border border-red-500/50 rounded text-xs text-red-200">
-          ⚠️ {state.error}
+        <div className="p-3 bg-red-950/70 border border-red-500/50 rounded text-xs text-red-200 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+          <span>{state.error}</span>
         </div>
       )}
 
@@ -240,12 +328,14 @@ export function EventEditForm({ event, managers }: EventEditFormProps) {
         </div>
       </div>
 
+      <EventImageUpload currentImageUrl={event.imageUrl || null} />
+
       <button
         type="submit"
         disabled={isPending}
         className="w-full py-3.5 bg-[#9E1B23] text-white font-bold text-xs uppercase tracking-wider rounded border border-[#E5BE45]/30 hover:bg-[#C62828] transition-all disabled:opacity-50"
       >
-        {isPending ? "Updating Event..." : "Save Changes →"}
+        {isPending ? "Updating Event..." : "Save Changes"}
       </button>
     </form>
   );

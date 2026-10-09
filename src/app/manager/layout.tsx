@@ -2,6 +2,7 @@ import { requireManager } from "@/lib/auth/permissions";
 import { ArohaLogo } from "@/components/aroha/aroha-logo";
 import { logoutAction } from "@/actions/auth";
 import Link from "next/link";
+import { LayoutDashboard, Calendar, Clock } from "lucide-react";
 
 export default async function ManagerLayout({
   children,
@@ -11,9 +12,9 @@ export default async function ManagerLayout({
   const user = await requireManager();
 
   const links = [
-    { label: "Dashboard", href: "/manager", icon: "📊" },
-    { label: "My Events", href: "/manager/events", icon: "🎪" },
-    { label: "Schedule Slots", href: "/manager/schedule", icon: "🗓️" },
+    { label: "Dashboard", href: "/manager", icon: LayoutDashboard },
+    { label: "My Events", href: "/manager/events", icon: Calendar },
+    { label: "Schedule Slots", href: "/manager/schedule", icon: Clock },
   ];
 
   return (
@@ -41,9 +42,9 @@ export default async function ManagerLayout({
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider text-[#FFF9EF]/80 hover:text-[#E5BE45] hover:bg-[#111111] transition-all"
+                className="flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider text-[#FFF9EF]/80 hover:text-[#E5BE45] hover:bg-[#111111] transition-all group"
               >
-                <span>{link.icon}</span>
+                <link.icon className="w-4 h-4 text-[#E5BE45]/70 group-hover:text-[#E5BE45] transition-colors" />
                 <span>{link.label}</span>
               </Link>
             ))}

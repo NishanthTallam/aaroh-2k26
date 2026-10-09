@@ -50,6 +50,7 @@ export async function createEventAction(
   const eventDate = new Date(formData.get("eventDate") as string);
   const eventManagerId = (formData.get("eventManagerId") as string) || null;
   const status = (formData.get("status") as "DRAFT" | "PUBLISHED") || "DRAFT";
+  const imageUrl = (formData.get("imageUrl") as string) || null;
 
   if (!name || !category || !description || !venue || !registrationType) {
     return { error: "Please fill in all required event details." };
@@ -77,6 +78,7 @@ export async function createEventAction(
       eventDate,
       eventManagerId,
       status,
+      imageUrl: imageUrl || undefined,
     })
     .returning();
 
@@ -114,6 +116,7 @@ export async function updateEventAction(
   const eventDate = new Date(formData.get("eventDate") as string);
   const eventManagerId = (formData.get("eventManagerId") as string) || null;
   const status = formData.get("status") as "DRAFT" | "PUBLISHED" | "COMPLETED";
+  const imageUrl = (formData.get("imageUrl") as string) || null;
 
   // Check event ownership if not admin
   if (user.role !== "ADMIN") {
@@ -141,6 +144,7 @@ export async function updateEventAction(
       eventDate,
       eventManagerId: user.role === "ADMIN" ? eventManagerId : undefined,
       status,
+      imageUrl: imageUrl || undefined,
       updatedAt: new Date(),
     })
     .where(eq(events.id, id));
