@@ -89,7 +89,7 @@ export default async function MyRegistrationsPage() {
                   href={`/dashboard/registrations/${reg.id}`}
                   className="px-4 py-2 bg-[#111111] text-[#E5BE45] border border-[#D4A72C]/30 text-xs font-bold uppercase tracking-wider rounded hover:bg-[#E5BE45] hover:text-black transition-all"
                 >
-                  View Pass & QR →
+                  {reg.status === "APPROVED" ? "View Pass & QR →" : "View Details →"}
                 </Link>
               </div>
             </div>

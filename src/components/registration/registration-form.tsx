@@ -4,7 +4,7 @@ import { useState, useActionState } from "react";
 import { createRegistrationAction } from "@/actions/registrations";
 import type { Event, Profile } from "@/db/schema";
 import Image from "next/image";
-import { Camera, AlertCircle } from "lucide-react";
+import { Camera, AlertCircle, QrCode, ExternalLink, ShieldCheck } from "lucide-react";
 
 interface RegistrationFormProps {
   event: Event;
@@ -134,42 +134,83 @@ export function RegistrationForm({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Payment QR Code Box */}
-          <div className="flex flex-col items-center bg-white p-6 rounded text-black text-center shadow-lg">
+          <div className="lg:col-span-5 flex flex-col items-center bg-white p-6 sm:p-7 rounded-xl text-black text-center shadow-2xl border-2 border-[#D4A72C]/40">
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3">
+              <QrCode className="w-3.5 h-3.5 text-[#9E1B23]" />
+              <span>Official Festival UPI QR</span>
+            </div>
+
             {paymentQrUrl ? (
-              <div className="w-48 h-48 bg-white border border-neutral-200 rounded p-2 relative mb-3 flex items-center justify-center">
+              <div className="w-64 h-64 sm:w-72 sm:h-72 bg-white border border-neutral-200 rounded-lg p-2.5 relative mb-3 flex items-center justify-center shadow-inner">
                 <img
                   src={paymentQrUrl}
                   alt="Aaroh 2K26 UPI Merchant QR"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain select-none"
                 />
               </div>
             ) : (
-              <div className="w-48 h-48 bg-neutral-100 border-2 border-dashed border-neutral-400 rounded flex flex-col items-center justify-center p-4 relative mb-3">
+              <div className="w-64 h-64 sm:w-72 sm:h-72 bg-neutral-50 border-2 border-dashed border-neutral-300 rounded-lg flex flex-col items-center justify-center p-6 relative mb-3">
                 <div className="text-center">
-                  <div className="font-bold text-lg tracking-wider text-[#9E1B23]">
+                  <div className="font-bold text-xl tracking-wider text-[#9E1B23]">
                     AAROH 2K26
                   </div>
-                  <div className="text-[11px] font-mono text-neutral-600 mt-1">
+                  <div className="text-xs font-mono text-neutral-600 mt-2 bg-neutral-100 px-3 py-1 rounded border">
                     UPI ID: aroha2k26@upi
                   </div>
-                  <div className="text-xs font-bold text-[#111111] mt-2">
-                    Amount: ₹{calculatedFee}
+                  <div className="text-base font-bold text-[#111111] mt-3">
+                    Amount: <span className="text-[#9E1B23]">₹{calculatedFee}</span>
                   </div>
-                  <div className="text-[10px] text-neutral-500 mt-3">
-                    Scan with GPay, PhonePe, Paytm
+                  <div className="text-[11px] text-neutral-500 mt-3 font-medium">
+                    Scan with GPay, PhonePe, Paytm, or BHIM
                   </div>
                 </div>
               </div>
             )}
-            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
-              Official Festival Merchant QR
-            </span>
+
+            <div className="w-full flex items-center justify-between text-[11px] font-semibold text-neutral-700 pt-2 border-t border-neutral-200">
+              <span className="text-neutral-500 uppercase tracking-wider text-[10px]">Fee: ₹{calculatedFee}</span>
+              {paymentQrUrl && (
+                <a
+                  href={paymentQrUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-[#9E1B23] hover:underline font-bold text-[11px]"
+                >
+                  <span>Open Full QR</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
+
+            <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-neutral-500 font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Instant Transfer • Verified Merchant</span>
+            </div>
           </div>
 
           {/* Payment Proof Collection */}
-          <div className="space-y-4">
+          <div className="lg:col-span-7 space-y-5">
+            {/* Payment Guide Steps */}
+            <div className="p-4 bg-[#1A1512] border border-[#D4A72C]/25 rounded-lg space-y-2 text-xs">
+              <span className="text-[10px] font-bold tracking-[0.2em] text-[#E5BE45] uppercase block mb-1">
+                How to Complete Payment
+              </span>
+              <div className="flex items-start gap-2.5 text-[#FFF9EF]/80">
+                <span className="w-5 h-5 rounded-full bg-[#E5BE45]/20 text-[#E5BE45] font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">1</span>
+                <span>Scan the QR code on the left using <strong>Google Pay, PhonePe, Paytm, or BHIM</strong>.</span>
+              </div>
+              <div className="flex items-start gap-2.5 text-[#FFF9EF]/80">
+                <span className="w-5 h-5 rounded-full bg-[#E5BE45]/20 text-[#E5BE45] font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">2</span>
+                <span>Transfer exact registration fee: <strong className="text-[#E5BE45]">₹{calculatedFee}</strong>.</span>
+              </div>
+              <div className="flex items-start gap-2.5 text-[#FFF9EF]/80">
+                <span className="w-5 h-5 rounded-full bg-[#E5BE45]/20 text-[#E5BE45] font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">3</span>
+                <span>Enter the <strong>12-digit Bank UTR / Reference ID</strong> and upload the payment receipt below.</span>
+              </div>
+            </div>
+
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF] uppercase block mb-1.5">
                 Bank UTR / Transaction Reference Number *
@@ -178,7 +219,7 @@ export function RegistrationForm({
                 type="text"
                 name="utrNumber"
                 required
-                placeholder="e.g. 408573928172"
+                placeholder="e.g. 408573928172 (12-digit reference)"
                 className="w-full px-4 py-3 bg-[#1A1512] border border-[#D4A72C]/30 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
               />
               <span className="text-[11px] text-[#FFF9EF]/50 mt-1 block">

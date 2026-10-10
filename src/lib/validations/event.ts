@@ -1,1 +1,0 @@
-// TODO: event validation schema

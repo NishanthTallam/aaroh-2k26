@@ -1,1 +1,0 @@
-// TODO: registration types
