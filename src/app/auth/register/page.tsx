@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { registerAction } from "@/actions/auth";
 import { ArohaLogo } from "@/components/aroha/aroha-logo";
+import { Award } from "lucide-react";
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(registerAction, null);
@@ -72,11 +73,12 @@ export default function RegisterPage() {
 
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                Phone Number
+                Phone Number *
               </label>
               <input
                 type="tel"
                 name="phone"
+                required
                 placeholder="9876543210"
                 className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5BE45]"
               />
@@ -86,24 +88,29 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                College / University
+                College / Institution *
               </label>
-              <input
-                type="text"
+              <select
                 name="college"
-                placeholder="ABC Institute of Tech"
-                className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5BE45]"
-              />
+                required
+                defaultValue=""
+                className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
+              >
+                <option value="" disabled>Select College</option>
+                <option value="Sanskrithi School of Engineering">Sanskrithi School of Engineering</option>
+                <option value="Sanskrithi School of Business">Sanskrithi School of Business</option>
+              </select>
             </div>
 
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                Roll Number
+                Roll / Hall Ticket Number *
               </label>
               <input
                 type="text"
                 name="rollNumber"
-                placeholder="22CSE042"
+                required
+                placeholder="e.g. 22SSE042"
                 className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5BE45]"
               />
             </div>
@@ -112,19 +119,27 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                Department
+                Department *
               </label>
-              <input
-                type="text"
+              <select
                 name="department"
-                placeholder="Computer Science"
-                className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5BE45]"
-              />
+                required
+                defaultValue=""
+                className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
+              >
+                <option value="" disabled>Select Department</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MECH">MECH</option>
+                <option value="AI/ML">AI/ML</option>
+              </select>
             </div>
 
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                Year of Study
+                Year of Study *
               </label>
               <select
                 name="year"
@@ -135,8 +150,18 @@ export default function RegisterPage() {
                 <option value="2nd Year">2nd Year</option>
                 <option value="3rd Year">3rd Year</option>
                 <option value="4th Year">4th Year</option>
-                <option value="Postgraduate">Postgraduate</option>
               </select>
+            </div>
+          </div>
+
+          {/* Important Notice for Certification */}
+          <div className="p-3.5 bg-[#111111]/90 border border-[#E5BE45]/30 rounded-lg flex items-start gap-3 text-xs text-[#FFF9EF]/80 shadow-md">
+            <Award className="w-5 h-5 text-[#E5BE45] shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              <strong className="text-[#E5BE45] font-semibold block mb-0.5">
+                Important Notice for Certification:
+              </strong>
+              Please enter your valid and accurate details (Name, Roll Number, College, and Department). These will be printed directly on your official festival participation and merit certificates.
             </div>
           </div>
 

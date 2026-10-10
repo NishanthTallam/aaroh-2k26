@@ -76,13 +76,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
           <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
             College / Institution *
           </label>
-          <input
-            type="text"
+          <select
             name="college"
             required
-            defaultValue={user.college || ""}
+            defaultValue={user.college || "Sanskrithi School of Engineering"}
             className="w-full px-4 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
-          />
+          >
+            <option value="Sanskrithi School of Engineering">Sanskrithi School of Engineering</option>
+            <option value="Sanskrithi School of Business">Sanskrithi School of Business</option>
+          </select>
         </div>
 
         <div>
@@ -104,13 +106,19 @@ export function ProfileForm({ user }: ProfileFormProps) {
           <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
             Department *
           </label>
-          <input
-            type="text"
+          <select
             name="department"
             required
-            defaultValue={user.department || ""}
+            defaultValue={user.department || "CSE"}
             className="w-full px-4 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
-          />
+          >
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="MECH">MECH</option>
+            <option value="AI/ML">AI/ML</option>
+          </select>
         </div>
 
         <div>
@@ -126,9 +134,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
             <option value="2nd Year">2nd Year</option>
             <option value="3rd Year">3rd Year</option>
             <option value="4th Year">4th Year</option>
-            <option value="Postgraduate">Postgraduate</option>
           </select>
         </div>
+      </div>
+
+      <div className="p-3.5 bg-[#111111]/90 border border-[#E5BE45]/30 rounded-lg text-xs text-[#FFF9EF]/80">
+        <strong className="text-[#E5BE45] font-semibold block mb-0.5">
+          Important Notice for Certification:
+        </strong>
+        Please ensure all details are accurate. These are used directly to print your official festival participation and merit certificates.
       </div>
 
       <button
