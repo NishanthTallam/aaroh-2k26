@@ -62,7 +62,7 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FFF9EF]/40 tracking-wider">
           <span>© 2026 Aaroh 2K26. All rights reserved.</span>
           <span className="text-[#E5BE45]/60 font-medium">CELEBRATE • COMPETE • CREATE</span>
-          <span>EST. 2026 • HYDERABAD</span>
+          <span>EST. 2026 • PUTTAPARTHI</span>
         </div>
       </div>
     </footer>
