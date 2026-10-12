@@ -118,6 +118,8 @@ export function ProfileForm({ user }: ProfileFormProps) {
             <option value="CIVIL">CIVIL</option>
             <option value="MECH">MECH</option>
             <option value="AI/ML">AI/ML</option>
+            <option value="MBA">MBA</option>
+            <option value="BBA">BBA</option>
           </select>
         </div>
 
