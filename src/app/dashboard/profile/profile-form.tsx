@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { updateProfileAction } from "@/actions/auth";
 import type { Profile } from "@/db/schema";
 
@@ -13,6 +13,12 @@ export function ProfileForm({ user }: ProfileFormProps) {
     updateProfileAction,
     null
   );
+  const [selectedCollege, setSelectedCollege] = useState(
+    user.college || "Sanskrithi School of Engineering"
+  );
+
+  const isBusinessSchool =
+    selectedCollege.trim().toLowerCase() === "sanskrithi school of business";
 
   return (
     <form action={formAction} className="space-y-5">
@@ -79,7 +85,8 @@ export function ProfileForm({ user }: ProfileFormProps) {
           <select
             name="college"
             required
-            defaultValue={user.college || "Sanskrithi School of Engineering"}
+            value={selectedCollege}
+            onChange={(e) => setSelectedCollege(e.target.value)}
             className="w-full px-4 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
           >
             <option value="Sanskrithi School of Engineering">Sanskrithi School of Engineering</option>
@@ -89,13 +96,14 @@ export function ProfileForm({ user }: ProfileFormProps) {
 
         <div>
           <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-            Roll / Student ID *
+            Roll / Student ID {isBusinessSchool ? <span className="text-[#E5BE45] text-[11px] font-normal lowercase">(optional)</span> : "*"}
           </label>
           <input
             type="text"
             name="rollNumber"
-            required
+            required={!isBusinessSchool}
             defaultValue={user.rollNumber || ""}
+            placeholder={isBusinessSchool ? "Optional (SSB)" : "e.g. 22SSE042"}
             className="w-full px-4 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
           />
         </div>

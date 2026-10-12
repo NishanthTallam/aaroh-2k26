@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
 import { registerAction } from "@/actions/auth";
 import { ArohaLogo } from "@/components/aroha/aroha-logo";
@@ -8,6 +8,10 @@ import { Award } from "lucide-react";
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(registerAction, null);
+  const [selectedCollege, setSelectedCollege] = useState("");
+
+  const isBusinessSchool =
+    selectedCollege.trim().toLowerCase() === "sanskrithi school of business";
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,#350c11_0%,#111111_75%)]">
@@ -93,7 +97,8 @@ export default function RegisterPage() {
               <select
                 name="college"
                 required
-                defaultValue=""
+                value={selectedCollege}
+                onChange={(e) => setSelectedCollege(e.target.value)}
                 className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white focus:outline-none focus:border-[#E5BE45]"
               >
                 <option value="" disabled>Select College</option>
@@ -104,13 +109,13 @@ export default function RegisterPage() {
 
             <div>
               <label className="text-xs font-bold tracking-wider text-[#FFF9EF]/80 uppercase block mb-1.5">
-                Roll / Hall Ticket Number *
+                Roll / Hall Ticket Number {isBusinessSchool ? <span className="text-[#E5BE45] text-[11px] font-normal lowercase">(optional)</span> : "*"}
               </label>
               <input
                 type="text"
                 name="rollNumber"
-                required
-                placeholder="e.g. 22SSE042"
+                required={!isBusinessSchool}
+                placeholder={isBusinessSchool ? "Optional (SSB)" : "e.g. 22SSE042"}
                 className="w-full px-3.5 py-2.5 bg-[#111111] border border-[#D4A72C]/20 rounded text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#E5BE45]"
               />
             </div>

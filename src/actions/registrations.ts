@@ -201,3 +201,248 @@ export async function checkInParticipantAction(id: string): Promise<{ success: b
   return { success: true };
 }
 
+export async function addTeamMemberAction(data: {
+  registrationId: string;
+  name: string;
+  rollNumber: string;
+  email: string;
+  phone: string;
+  year?: string | null;
+  department?: string | null;
+}): Promise<{ success?: boolean; error?: string; memberId?: string }> {
+  const { requireManager } = await import("@/lib/auth/permissions");
+  const { revalidatePath } = await import("next/cache");
+  await requireManager();
+
+  const { registrationId, name, rollNumber, email, phone, year, department } = data;
+
+  if (!name?.trim() || !rollNumber?.trim() || !email?.trim() || !phone?.trim()) {
+    return { error: "Name, roll number, email, and phone number are required." };
+  }
+
+  // Get registration and event
+  const [reg] = await db
+    .select({
+      registration: registrations,
+      event: events,
+    })
+    .from(registrations)
+    .innerJoin(events, eq(registrations.eventId, events.id))
+    .where(eq(registrations.id, registrationId))
+    .limit(1);
+
+  if (!reg) {
+    return { error: "Registration not found." };
+  }
+
+  // Fetch current members count
+  const currentMembers = await db
+    .select()
+    .from(registrationMembers)
+    .where(eq(registrationMembers.registrationId, registrationId));
+
+  // Total team size is captain (1) + existing members
+  const currentTotal = currentMembers.length + 1;
+  const maxTeamSize = reg.event.maxTeamSize;
+
+  if (currentTotal >= maxTeamSize) {
+    return {
+      error: `Maximum team size limit reached (${maxTeamSize} members allowed including captain).`,
+    };
+  }
+
+  // Insert member
+  const [newMember] = await db
+    .insert(registrationMembers)
+    .values({
+      registrationId,
+      name: name.trim(),
+      rollNumber: rollNumber.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      year: year?.trim() || null,
+      department: department?.trim() || null,
+    })
+    .returning();
+
+  // If registration was SOLO, auto-switch to TEAM
+  if (reg.registration.registrationType !== "TEAM") {
+    await db
+      .update(registrations)
+      .set({
+        registrationType: "TEAM",
+        updatedAt: new Date(),
+      })
+      .where(eq(registrations.id, registrationId));
+  } else {
+    await db
+      .update(registrations)
+      .set({ updatedAt: new Date() })
+      .where(eq(registrations.id, registrationId));
+  }
+
+  revalidatePath(`/admin/registrations/${registrationId}`);
+  revalidatePath("/admin/registrations");
+  revalidatePath(`/dashboard/registrations/${registrationId}`);
+  revalidatePath(`/manager/events/${reg.event.id}/registrations`);
+
+  return { success: true, memberId: newMember.id };
+}
+
+export async function updateTeamMemberAction(data: {
+  memberId: string;
+  registrationId: string;
+  name: string;
+  rollNumber: string;
+  email: string;
+  phone: string;
+  year?: string | null;
+  department?: string | null;
+}): Promise<{ success?: boolean; error?: string }> {
+  const { requireManager } = await import("@/lib/auth/permissions");
+  const { revalidatePath } = await import("next/cache");
+  await requireManager();
+
+  const { memberId, registrationId, name, rollNumber, email, phone, year, department } = data;
+
+  if (!name?.trim() || !rollNumber?.trim() || !email?.trim() || !phone?.trim()) {
+    return { error: "Name, roll number, email, and phone number are required." };
+  }
+
+  await db
+    .update(registrationMembers)
+    .set({
+      name: name.trim(),
+      rollNumber: rollNumber.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      year: year?.trim() || null,
+      department: department?.trim() || null,
+    })
+    .where(eq(registrationMembers.id, memberId));
+
+  await db
+    .update(registrations)
+    .set({ updatedAt: new Date() })
+    .where(eq(registrations.id, registrationId));
+
+  const [reg] = await db
+    .select({ eventId: registrations.eventId })
+    .from(registrations)
+    .where(eq(registrations.id, registrationId))
+    .limit(1);
+
+  revalidatePath(`/admin/registrations/${registrationId}`);
+  revalidatePath("/admin/registrations");
+  revalidatePath(`/dashboard/registrations/${registrationId}`);
+  if (reg) {
+    revalidatePath(`/manager/events/${reg.eventId}/registrations`);
+  }
+
+  return { success: true };
+}
+
+export async function deleteTeamMemberAction(data: {
+  memberId: string;
+  registrationId: string;
+}): Promise<{ success?: boolean; error?: string }> {
+  const { requireManager } = await import("@/lib/auth/permissions");
+  const { revalidatePath } = await import("next/cache");
+  await requireManager();
+
+  const { memberId, registrationId } = data;
+
+  // Get registration and event
+  const [reg] = await db
+    .select({
+      registration: registrations,
+      event: events,
+    })
+    .from(registrations)
+    .innerJoin(events, eq(registrations.eventId, events.id))
+    .where(eq(registrations.id, registrationId))
+    .limit(1);
+
+  if (!reg) {
+    return { error: "Registration not found." };
+  }
+
+  // Fetch current members
+  const currentMembers = await db
+    .select()
+    .from(registrationMembers)
+    .where(eq(registrationMembers.registrationId, registrationId));
+
+  // If deleting would drop total team size below minTeamSize
+  // Captain (1) + remaining members (currentMembers.length - 1)
+  const remainingTotal = currentMembers.length; // after removing this member, captain (1) + (length - 1) = length
+  const minTeamSize = reg.event.minTeamSize;
+
+  if (remainingTotal < minTeamSize) {
+    return {
+      error: `Cannot delete member: Minimum team size for this event is ${minTeamSize} (including captain).`,
+    };
+  }
+
+  await db
+    .delete(registrationMembers)
+    .where(eq(registrationMembers.id, memberId));
+
+  await db
+    .update(registrations)
+    .set({ updatedAt: new Date() })
+    .where(eq(registrations.id, registrationId));
+
+  revalidatePath(`/admin/registrations/${registrationId}`);
+  revalidatePath("/admin/registrations");
+  revalidatePath(`/dashboard/registrations/${registrationId}`);
+  revalidatePath(`/manager/events/${reg.event.id}/registrations`);
+
+  return { success: true };
+}
+
+export async function updateRegistrationTeamNameAction(data: {
+  registrationId: string;
+  teamName: string;
+}): Promise<{ success?: boolean; error?: string }> {
+  const { requireManager } = await import("@/lib/auth/permissions");
+  const { revalidatePath } = await import("next/cache");
+  await requireManager();
+
+  const { registrationId, teamName } = data;
+
+  await db
+    .update(registrations)
+    .set({
+      teamName: teamName.trim() || null,
+      updatedAt: new Date(),
+    })
+    .where(eq(registrations.id, registrationId));
+
+  revalidatePath(`/admin/registrations/${registrationId}`);
+  revalidatePath("/admin/registrations");
+
+  return { success: true };
+}
+
+export async function convertToTeamRegistrationAction(
+  registrationId: string
+): Promise<{ success?: boolean; error?: string }> {
+  const { requireManager } = await import("@/lib/auth/permissions");
+  const { revalidatePath } = await import("next/cache");
+  await requireManager();
+
+  await db
+    .update(registrations)
+    .set({
+      registrationType: "TEAM",
+      updatedAt: new Date(),
+    })
+    .where(eq(registrations.id, registrationId));
+
+  revalidatePath(`/admin/registrations/${registrationId}`);
+  revalidatePath("/admin/registrations");
+
+  return { success: true };
+}
+

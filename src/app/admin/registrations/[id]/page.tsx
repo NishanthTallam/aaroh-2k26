@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getRegistrationById } from "@/db/queries/registrations";
 import { getFileViewUrl } from "@/lib/storage/certificates";
 import { RegistrationReviewControls } from "./review-controls";
+import { AdminTeamMembersManager } from "./team-members-manager";
 import Link from "next/link";
 import QRCode from "qrcode";
 
@@ -143,28 +144,17 @@ export default async function AdminRegistrationReviewPage({
             </div>
           </div>
 
-          {/* Team Members Roster */}
-          {data.registrationType === "TEAM" && data.members && data.members.length > 0 && (
-            <div className="bg-[#171310] border border-white/10 rounded-lg p-6 space-y-3">
-              <h2 className="text-xs font-bold tracking-[0.2em] text-[#E5BE45] uppercase pb-2 border-b border-white/10">
-                Team Members ({data.members.length + 1})
-              </h2>
-              <div className="space-y-2 text-xs">
-                <div className="p-2.5 bg-[#111111] rounded">
-                  <strong className="text-white block">{data.participant.name} (Captain)</strong>
-                  <span className="text-[#FFF9EF]/60">{data.participant.email}</span>
-                </div>
-                {data.members.map((m) => (
-                  <div key={m.id} className="p-2.5 bg-[#111111] rounded">
-                    <strong className="text-white block">{m.name}</strong>
-                    <span className="text-[#FFF9EF]/60">
-                      {m.rollNumber} • {m.email} • {m.phone}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Team Members Management (Add, Edit, Delete within allowed Team Size) */}
+          <AdminTeamMembersManager
+            registrationId={data.id}
+            registrationType={data.registrationType}
+            teamName={data.teamName}
+            participant={data.participant}
+            members={data.members || []}
+            minTeamSize={data.event.minTeamSize}
+            maxTeamSize={data.event.maxTeamSize}
+            eventRegistrationType={data.event.registrationType}
+          />
         </div>
 
         {/* Right: Payment Screenshot Audit Viewer & Decision Controls */}
