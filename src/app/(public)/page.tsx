@@ -89,7 +89,7 @@ export default async function HomePage() {
             <div className="relative flex justify-center">
               <div className="relative w-full max-w-[420px] aspect-[960/1600] rounded-xl overflow-hidden shadow-2xl border-2 border-[#D4A72C]/40 group bg-[#111111]">
                 <Image
-                  src="/images/general/aaroh2k26.jpeg"
+                  src="/images/general/aaroh-2k26.jpeg"
                   alt="Aaroh 2K26 Official Festival Poster - Sanskrithi Group of Institutions"
                   fill
                   priority
@@ -326,80 +326,6 @@ export default async function HomePage() {
             >
               View Full Schedule →
             </Link>
-          </div>
-
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {/* Day 1 */}
-            <div className="bg-white border border-[#9E1B23]/15 rounded p-6 shadow-sm hover:border-[#9E1B23] hover:-translate-y-1 transition-all">
-              <span className="font-serif text-2xl font-bold text-[#9E1B23] block">
-                DAY 01
-              </span>
-              <span className="text-[10px] tracking-wider font-bold text-[#7b695d] uppercase block mb-6">
-                CULTURE & TRADITION
-              </span>
-              <div className="space-y-4 text-xs">
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">10:00 AM</time>
-                  <span className="font-medium text-[#111111]">Opening Ceremony</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">11:30 AM</time>
-                  <span className="font-medium text-[#111111]">Sur Sangam (Singing)</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">05:30 PM</time>
-                  <span className="font-medium text-[#111111]">Dandiya Night & Garba</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Day 2 */}
-            <div className="bg-white border border-[#9E1B23]/15 rounded p-6 shadow-sm hover:border-[#9E1B23] hover:-translate-y-1 transition-all">
-              <span className="font-serif text-2xl font-bold text-[#9E1B23] block">
-                DAY 02
-              </span>
-              <span className="text-[10px] tracking-wider font-bold text-[#7b695d] uppercase block mb-6">
-                CREATIVITY & SPORTS
-              </span>
-              <div className="space-y-4 text-xs">
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">09:00 AM</time>
-                  <span className="font-medium text-[#111111]">Rann-Bhoomi (Cricket)</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">10:00 AM</time>
-                  <span className="font-medium text-[#111111]">Drishti Photography</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">05:00 PM</time>
-                  <span className="font-medium text-[#111111]">Nritya Tarang (Choreo)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Day 3 */}
-            <div className="bg-white border border-[#9E1B23]/15 rounded p-6 shadow-sm hover:border-[#9E1B23] hover:-translate-y-1 transition-all">
-              <span className="font-serif text-2xl font-bold text-[#9E1B23] block">
-                DAY 03
-              </span>
-              <span className="text-[10px] tracking-wider font-bold text-[#7b695d] uppercase block mb-6">
-                FINALE & CELEBRATION
-              </span>
-              <div className="space-y-4 text-xs">
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">12:00 PM</time>
-                  <span className="font-medium text-[#111111]">Zaiqa Master Chef</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">04:00 PM</time>
-                  <span className="font-medium text-[#111111]">Grand Finale & Awards</span>
-                </div>
-                <div>
-                  <time className="font-bold text-[#9E1B23] block">07:30 PM</time>
-                  <span className="font-medium text-[#111111]">Celebrity DJ Night</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
