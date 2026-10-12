@@ -54,22 +54,27 @@ function verifyToken(token: string): { userId: string } | null {
 }
 
 export async function getSession(): Promise<{ user: Profile } | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-  if (!token) return null;
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+    if (!token) return null;
 
-  const verified = verifyToken(token);
-  if (!verified) return null;
+    const verified = verifyToken(token);
+    if (!verified) return null;
 
-  const [profile] = await db
-    .select()
-    .from(profiles)
-    .where(eq(profiles.id, verified.userId))
-    .limit(1);
+    const [profile] = await db
+      .select()
+      .from(profiles)
+      .where(eq(profiles.id, verified.userId))
+      .limit(1);
 
-  if (!profile) return null;
+    if (!profile) return null;
 
-  return { user: profile };
+    return { user: profile };
+  } catch (error) {
+    console.error("Session lookup error:", error);
+    return null;
+  }
 }
 
 export async function setSession(profileId: string): Promise<void> {
