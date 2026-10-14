@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { profiles } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import { CategoryExcelExportMenu } from "./export-category-excel-menu";
 
 export default async function AdminEventsPage() {
   const events = await getAllEvents();
@@ -25,12 +26,15 @@ export default async function AdminEventsPage() {
           </h1>
         </div>
 
-        <Link
-          href="/admin/events/new"
-          className="px-5 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded border border-[#E5BE45]/30 hover:bg-[#C62828] transition-all"
-        >
-          + Create New Event
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <CategoryExcelExportMenu />
+          <Link
+            href="/admin/events/new"
+            className="px-5 py-2.5 bg-[#9E1B23] text-white text-xs font-bold uppercase tracking-wider rounded border border-[#E5BE45]/30 hover:bg-[#C62828] transition-all"
+          >
+            + Create New Event
+          </Link>
+        </div>
       </div>
 
       <div className="bg-[#171310] border border-white/10 rounded-lg overflow-hidden shadow-xl">
@@ -88,7 +92,7 @@ export default async function AdminEventsPage() {
                   <td className="p-4 text-[#FFF9EF]/80">
                     {new Date(ev.eventDate).toLocaleDateString()}
                   </td>
-                  <td className="p-4 text-right space-x-2">
+                  <td className="p-4 text-right space-x-2 whitespace-nowrap">
                     <Link
                       href={`/admin/events/${ev.id}`}
                       className="px-2.5 py-1 bg-[#111111] text-[#E5BE45] border border-[#D4A72C]/30 rounded text-[11px] font-bold uppercase tracking-wider hover:bg-[#E5BE45] hover:text-black transition-all"

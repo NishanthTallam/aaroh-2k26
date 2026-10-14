@@ -1,5 +1,6 @@
 import { getAllRegistrations } from "@/db/queries/registrations";
 import Link from "next/link";
+import { CategoryExcelExportMenu } from "../events/export-category-excel-menu";
 
 interface AdminRegistrationsPageProps {
   searchParams: Promise<{ status?: string }>;
@@ -34,8 +35,8 @@ export default async function AdminRegistrationsPage({
           </h1>
         </div>
 
-        {/* Status Filter Buttons */}
-        <div className="flex flex-wrap gap-2">
+        {/* Status Filter Buttons & Category Excel Export */}
+        <div className="flex flex-wrap items-center gap-2">
           {filters.map((f) => {
             const isActive = (status || "") === f.value;
             return (
@@ -52,6 +53,9 @@ export default async function AdminRegistrationsPage({
               </Link>
             );
           })}
+          <div className="ml-1">
+            <CategoryExcelExportMenu />
+          </div>
         </div>
       </div>
 
